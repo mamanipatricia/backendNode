@@ -1,5 +1,6 @@
 const express = require('express');
 
+// const response = require('../../../network/response');
 const response = require('../../../network/response');
 // const Controller = require('./controller'); // no sirve ya porq hemos cambiado la estructura del controller
 const Controller = require('./index');
@@ -10,15 +11,15 @@ const router = express.Router();
 router.get('/', list);
 router.get('/:id', get);
 router.post('/', upsert);
-// router.put('/', upsert);
+router.put('/', upsert);
 
 // Internal functions.
 function list(req, res) {
     // res.send("todo funciona bien...");
     Controller.list()
-    .then((list) => {
-        response.success(req, res, list, 200)
-    })
+        .then((list) => {
+            response.success(req, res, list, 200)
+        })
         .catch((err) => {
             response.error(req, res, err.message, 500);
         });
@@ -44,3 +45,5 @@ function upsert(req, res) {
             response.error(req, res, err.message, 500);
         });
 };
+
+module.exports = router;
