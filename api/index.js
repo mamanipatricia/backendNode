@@ -16,7 +16,8 @@ const swaggerDoc = require('./swagger.json')
 app.use('/api/user', user);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
 
-// escuche
+// LISTEN
 app.listen(config.api.port, () =>  {
     console.log("Listening API ON port ", config.api.port);
 });
+
