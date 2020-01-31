@@ -12,6 +12,7 @@ router.get('/', list);
 router.get('/:id', get);
 router.post('/', upsert);
 router.put('/', upsert);
+router.delete('/:id', deleteUsr);
 
 // Internal functions.
 function list(req, res) {
@@ -44,6 +45,15 @@ function upsert(req, res) {
         .catch((err) => {
             response.error(req, res, err.message, 500);
         });
+};
+function deleteUsr(req, res) {
+    Controller.deleteUser(req.params.id)
+    .then(resd => {
+        response.success(req, res, resd, 204)
+    })
+    .catch((err) => {
+        response.error(req, res, err, 500);
+    })
 };
 
 module.exports = router;

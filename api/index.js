@@ -5,6 +5,7 @@ const swaggerUi = require('swagger-ui-express')
 
 const config = require('../config.js');
 const user = require('./components/user/network');
+const auth = require('./components/auth/network')
 
 const app = express(); // inicializando
 
@@ -14,10 +15,10 @@ const swaggerDoc = require('./swagger.json')
 
 // ROUTER
 app.use('/api/user', user);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+app.use('/api/auth', auth);
 
 // LISTEN
-app.listen(config.api.port, () =>  {
+app.listen(config.api.port, () => {
     console.log("Listening API ON port ", config.api.port);
 });
-

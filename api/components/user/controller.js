@@ -39,10 +39,15 @@ module.exports = function (injectedStored) {
 		return store.upsert(TABLA, user);
 	}
 
+	function deleteUser(userId) {
+		return store.remove(TABLA, userId);
+	}
+
 	return {
 		list,
 		get,
 		upsert,
+		deleteUser,
 	};
 }
 
