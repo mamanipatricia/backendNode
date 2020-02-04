@@ -2,9 +2,11 @@ const db = {
     'user': [
         { id: 1, name: 'Patricia' },
         { id: 2, name: 'Patricia2' },
-        { username: 'patty', password: 123},
-
     ],
+    'auth': [
+        { name: 'patty', username: 'patty', password: 123 },
+    ]
+
     // 'logs': []
 };
 
@@ -39,11 +41,16 @@ async function remove(table, id) {
     db[table].splice(indexPosition, 1);
 }
 
-async function query(table, query) {
-    let col = await list(table);
-    let keys = Object.keys(query);
+async function query(table, q) {
+    let col = await list(table); // get all 'auth table' rows (an array)
+    let keys = Object.keys(q); // [ .... 'keys',] =>[username] -- return an array of keys from an object > Object.keys({name:"patty"}) > [ 'name' ]
     let key = keys[0];
-    return col.filter(item => item[key] === query[key])[0] || null;
+    return col
+        .filter(item => item[key] === q[key])
+    [0] || {};
+    // return [{id:1},{id:2}].filter(i => {
+    //     return i.username === q.username
+    // })[0] || null  -- an explanation..
 }
 
 module.exports = {
@@ -52,4 +59,4 @@ module.exports = {
     upsert,
     remove,
     query,
- }
+}
