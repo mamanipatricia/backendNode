@@ -79,6 +79,17 @@ function update(table, data) {
     })
 }
 
+// UPDATE `table_name` SET `column_name` = `new_value' [WHERE condition];
+// $sql = "UPDATE data SET Age='28' WHERE id=201 and user = 'abc'"
+function updatePost(table, data) {
+    return new Promise((resolve,reject) => {
+        connection.query(`UPDATE ${table} SET ${table}.text='${data.text}' WHERE '${data.id}'=id and '${data.user_id}'=user_id`, (err, result) => {
+            if (err) return reject(err);
+            resolve(result);
+        })
+    })
+}
+
 function upsert(table, data) {
     if (data.id && data) {
         // return update(table, data);
@@ -113,6 +124,24 @@ function query(table, query, join) { // QUERY(user_follow, {user_from: 8puc7...}
 
     })
 }
+
+function listPostsFromUser(table, data) {
+    return new Promise((resolve, reject) => {
+        connection.query(`SELECT * FROM ${table} WHERE ${table}.?`, data, (err, res) => {
+            if (err) return reject(err);
+            resolve(res);
+        })
+    })
+}
+
+function destroyPost(table, data) {
+    return new Promise((resolve, reject) => {
+        connection.query(`DELETE FROM ${table} WHERE '${data.id}'=${table}.id and '${data.user_id}'=${table}.user_id`, (err, res) => {
+            if(err) return reject(err);
+            resolve(res);
+        })
+    })
+}
 /*
     select *
    from user as u
@@ -134,4 +163,7 @@ module.exports = {
     upsert,
     query,
     insert,
+    updatePost,
+    listPostsFromUser,
+    destroyPost,
 }
